@@ -1,17 +1,10 @@
+import { getTodayMinMaxTemp } from '@/entities/weather/model/processWeather';
 import { getCurrentWeather, getForecast } from '@/shared/api';
 import { useGeolocation } from '@/shared/lib/useGeolocation';
-import { useEffect, useState } from 'react';
+import { CurrentWeatherWidget } from '@/widgets/current-weather';
+import { ForecastWidget } from '@/widgets/forecast-list';
 
-interface WeatherItemProps {
-  dt: number;
-  dt_txt: string;
-  main: {
-    temp: number;
-  };
-  weather: {
-    icon: string;
-  }[];
-}
+import { useEffect, useState } from 'react';
 
 export const WeatherPage = () => {
   const [currentWeather, setCurrentWeather] = useState<any>(null);
@@ -51,48 +44,16 @@ export const WeatherPage = () => {
       </div>
     );
 
+  const dayMinMax = forecastData
+    ? getTodayMinMaxTemp(forecastData.list)
+    : { min: 0, max: 0 };
+
   return (
     <div className="min-h-screen grow px-60">
       <div className="text-center py-30">
-        {/* {error && <p className="text-red-500">에러: {error}</p>} */}
-        {currentWeather && (
-          <div className="flex flex-col items-center">
-            <img
-              src={`https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`}
-              alt="weather icon"
-            />
-            <p className="text-sm">{currentWeather.name}</p>
-            <h1 className="text-5xl font-bold mb-4">
-              {Math.trunc(currentWeather.main.temp)}
-            </h1>
-            <p>{currentWeather.weather[0].description}</p>
-          </div>
-        )}
+        {currentWeather && <CurrentWeatherWidget data={currentWeather} />}
         {forecastData && (
-          <div className="mt-4 p-4">
-            <div className="flex justify-center items-center gap-10">
-              <p>최저 : {Math.trunc(forecastData.list[0].main.temp_min)}</p>
-              <p>최고 : {Math.trunc(forecastData.list[0].main.temp_max)}</p>
-            </div>
-
-            <div>
-              {forecastData.list.map(
-                (weather: WeatherItemProps, index: number) => (
-                  <div
-                    key={`${weather.dt}-${index}`}
-                    className="flex justify-between items-center"
-                  >
-                    <p>{weather.dt_txt}</p>
-                    <p>{weather.main.temp}</p>
-                    <img
-                      src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                      alt="weather icon"
-                    />
-                  </div>
-                ),
-              )}
-            </div>
-          </div>
+          <ForecastWidget data={forecastData.list} dayMinMax={dayMinMax} />
         )}
       </div>
     </div>
