@@ -17,10 +17,6 @@ export const getTodayMinMaxTemp = (data: ForecastItemData[]) => {
   const maxs = todayData.map((item) => item.main.temp_max);
   const mins = todayData.map((item) => item.main.temp_min);
 
-  console.log('오늘의 최저기온들:', mins);
-  console.log('오늘의 최고기온들:', maxs);
-  console.log(todayData);
-
   return {
     min: Math.min(...mins),
     max: Math.max(...maxs),
