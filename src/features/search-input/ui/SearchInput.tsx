@@ -85,7 +85,7 @@ export const SearchInput = ({ onSelectLocation }: SearchInputProps) => {
                       <button
                         type="button"
                         className="w-full text-left cursor-pointer"
-                        onClick={() => handleSelectLocation(result)}
+                        onMouseDown={() => handleSelectLocation(result)}
                       >
                         {result.replace(/-/g, ' ')}
                       </button>
