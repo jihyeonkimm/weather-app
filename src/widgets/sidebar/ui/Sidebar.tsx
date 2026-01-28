@@ -92,6 +92,9 @@ export const Sidebar = ({
                 }}
                 onClick={() => {
                   onSelectLocation(favorite.lat, favorite.lon, favorite.label);
+                  if (window.innerWidth < 768) {
+                    setIsOpen(false);
+                  }
                 }}
               />
             ))

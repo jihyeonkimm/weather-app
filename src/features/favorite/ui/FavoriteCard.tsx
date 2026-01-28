@@ -65,7 +65,7 @@ export const FavoriteCard = ({
           {isLoading ? (
             <div className="w-full h-25 bg-gray-200 animate-pulse rounded"></div>
           ) : (
-            <div className="relative flex gap-2 w-full group border-b border-b-transparent hover:border-gray-200">
+            <div className="relative flex gap-2 w-full group border-b border-gray-200 md:border-b-transparent hover:border-gray-200">
               <input
                 type="text"
                 name="favorite-name"
@@ -90,8 +90,8 @@ export const FavoriteCard = ({
               </div>
               <button
                 type="button"
-                className="shrink-0 text-[10px] text-gray-800 opacity-0 transition-opacity duration-200 group-hover:opacity-100 peer-focus:opacity-100 cursor-pointer"
-                onMouseDown={(e) => {
+                className="shrink-0 text-[10px] text-gray-800 md:opacity-0 transition-opacity duration-200 group-hover:opacity-100 peer-focus:opacity-100 cursor-pointer"
+                onClick={(e) => {
                   e.stopPropagation();
                   handleEditClick();
                 }}
