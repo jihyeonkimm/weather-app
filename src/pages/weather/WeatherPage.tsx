@@ -1,14 +1,28 @@
 import { useWeatherQuery } from '@/entities/weather/model/useWeatherQuery';
+import { SearchInput } from '@/features/search-input';
 import { useGeolocation } from '@/shared/lib/useGeolocation';
 import { CurrentWeatherWidget } from '@/widgets/current-weather';
 import { ForecastWidget } from '@/widgets/forecast-list';
+import { useState } from 'react';
 
 export const WeatherPage = () => {
+  const [selectedLocation, setSelectedLocation] = useState<{
+    lat: number;
+    lon: number;
+  } | null>(null);
   const { location, error: geoError } = useGeolocation();
-  const { data, isLoading, isError } = useWeatherQuery(
-    location?.lat ?? null,
-    location?.lon ?? null,
-  );
+
+  // 선택된 위치가 있으면 선택된 위치로, 없으면 현재 위치로
+  const currentLat = selectedLocation?.lat ?? location?.lat ?? null;
+  const currentLon = selectedLocation?.lon ?? location?.lon ?? null;
+
+  const { data, isLoading, isError } = useWeatherQuery(currentLat, currentLon);
+
+  const handleSelectLocation = (lat: number, lon: number) => {
+    setSelectedLocation({ lat, lon });
+  };
+
+  console.log(data);
 
   if (geoError)
     return (
@@ -19,6 +33,10 @@ export const WeatherPage = () => {
 
   return (
     <div className="min-h-screen grow px-60">
+      <div className="flex justify-end w-full py-10">
+        <SearchInput onSelectLocation={handleSelectLocation} />
+      </div>
+
       <div className="flex flex-col justify-center items-center h-full">
         {isLoading && (
           <div className="flex flex-col justify-center items-center gap-10">
