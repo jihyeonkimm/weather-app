@@ -30,7 +30,7 @@ export const FavoriteCard = ({
 
   return (
     <li
-      className="relative rounded-md border border-gray-200"
+      className="relative rounded-md border border-gray-200 cursor-pointer hover:shadow-md duration-300"
       onClick={onClick}
     >
       <div className="w-full p-6">

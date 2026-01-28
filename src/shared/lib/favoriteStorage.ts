@@ -36,6 +36,7 @@ export const removeFavorite = (id: string) => {
   const favorites = getFavorites();
   const filtered = favorites.filter((favorite) => favorite.id !== id);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+  window.dispatchEvent(new Event('favoriteUpdate'));
 };
 
 export const updateFavoriteLabel = (id: string, newLabel: string) => {

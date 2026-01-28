@@ -11,12 +11,15 @@ import { CurrentWeatherWidget } from '@/widgets/current-weather';
 import { ForecastWidget } from '@/widgets/forecast-list';
 import { useEffect, useState } from 'react';
 
-export const WeatherPage = () => {
-  const [selectedLocation, setSelectedLocation] = useState<{
-    lat: number;
-    lon: number;
-    label: string;
-  } | null>(null);
+interface WeatherPageProps {
+  selectedLocation: { lat: number; lon: number; label: string } | null;
+  onSelectLocation: (lat: number, lon: number, label: string) => void;
+}
+
+export const WeatherPage = ({
+  selectedLocation,
+  onSelectLocation,
+}: WeatherPageProps) => {
   const { location, error: geoError } = useGeolocation();
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
@@ -38,11 +41,6 @@ export const WeatherPage = () => {
 
     setIsFavorite(exists);
   }, [selectedLocation]);
-
-  // 검색결과에서 지역 선택
-  const handleSelectLocation = (lat: number, lon: number, label: string) => {
-    setSelectedLocation({ lat, lon, label });
-  };
 
   // 즐겨찾기 추가 / 해제
   const handleToggleFavorite = () => {
@@ -92,7 +90,7 @@ export const WeatherPage = () => {
             onClick={handleToggleFavorite}
           />
         )}
-        <SearchInput onSelectLocation={handleSelectLocation} />
+        <SearchInput onSelectLocation={onSelectLocation} />
       </div>
 
       <div className="flex flex-col justify-center items-center min-h-screen">

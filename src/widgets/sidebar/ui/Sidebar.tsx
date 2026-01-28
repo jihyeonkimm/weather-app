@@ -11,9 +11,14 @@ import ArrowIcon from '@/shared/assets/icons/icon-arrow.svg';
 interface SidebarProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  onSelectLocation: (lat: number, lon: number, label: string) => void;
 }
 
-export const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
+export const Sidebar = ({
+  isOpen,
+  setIsOpen,
+  onSelectLocation,
+}: SidebarProps) => {
   const [favoriteList, setFavoriteList] = useState<FavoriteItem[]>([]);
 
   const handleRemove = (id: string) => {
@@ -56,15 +61,11 @@ export const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed top-50 z-30 bg-white border border-l-0 border-gray-200 rounded-r-md px-8 py-10 shadow-md transition-all duration-300 ${
-          isOpen ? 'left-200' : 'left-0'
-        }`}
+        className={`fixed top-50 z-30 bg-white border border-l-0 border-gray-200 rounded-r-md px-8 py-10 shadow-md transition-all duration-300 ${isOpen ? 'left-200' : 'left-0'}`}
         aria-label={isOpen ? '사이드바 닫기' : '사이드바 열기'}
       >
         <div
-          className={`w-16 h-16 transition-transform duration-300 ${
-            isOpen ? 'rotate-180' : ''
-          }`}
+          className={`w-16 h-16 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
         >
           <img src={ArrowIcon} alt="arrow icon" />
         </div>
@@ -89,7 +90,9 @@ export const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
                 onRemove={() => {
                   handleRemove(favorite.id);
                 }}
-                onClick={() => {}}
+                onClick={() => {
+                  onSelectLocation(favorite.lat, favorite.lon, favorite.label);
+                }}
               />
             ))
           ) : (
