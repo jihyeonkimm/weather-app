@@ -3,7 +3,7 @@ import { Sidebar } from '@/widgets/sidebar';
 import { useState } from 'react';
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [selectedLocation, setSelectedLocation] = useState<{
     lat: number;
     lon: number;

@@ -61,7 +61,7 @@ export const Sidebar = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`fixed top-50 z-30 bg-white border border-l-0 border-gray-200 rounded-r-md px-8 py-10 shadow-md transition-all duration-300 ${isOpen ? 'left-200' : 'left-0'}`}
+        className={`fixed top-50 z-30 bg-white border border-l-0 border-gray-200 rounded-r-md px-8 py-10 shadow-md transition-all duration-300 cursor-pointer ${isOpen ? 'left-200' : 'left-0'}`}
         aria-label={isOpen ? '사이드바 닫기' : '사이드바 열기'}
       >
         <div
