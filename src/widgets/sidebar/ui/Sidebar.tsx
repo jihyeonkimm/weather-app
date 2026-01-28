@@ -73,7 +73,7 @@ export const Sidebar = ({
 
       {/* 사이드바 */}
       <aside
-        className={`fixed top-0 min-h-screen h-full w-200 border-r border-gray-200 px-10 py-20 z-20 overflow-auto bg-white transition-transform duration-300 ${
+        className={`fixed top-0 min-h-dvh h-full w-200 border-r border-gray-200 px-10 py-20 z-20 overflow-auto bg-white transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
