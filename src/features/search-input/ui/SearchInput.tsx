@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { getCoordByLocation } from '@/shared/api';
 
 interface SearchInputProps {
-  onSelectLocation: (lat: number, lon: number) => void;
+  onSelectLocation: (lat: number, lon: number, label: string) => void;
 }
 
 export const SearchInput = ({ onSelectLocation }: SearchInputProps) => {
@@ -28,9 +28,14 @@ export const SearchInput = ({ onSelectLocation }: SearchInputProps) => {
   const handleSelectLocation = async (address: string) => {
     try {
       const coord = await getCoordByLocation(address);
-      console.log('location', coord);
 
-      onSelectLocation(coord.lat, coord.lon);
+      const label = address.includes('-')
+        ? address.split('-').pop() || address
+        : address;
+
+      console.log('label', label);
+
+      onSelectLocation(coord.lat, coord.lon, label);
       setSearchError(false);
       setIsOpen(false);
     } catch (error) {
@@ -42,12 +47,16 @@ export const SearchInput = ({ onSelectLocation }: SearchInputProps) => {
   return (
     <div className="relative">
       <div className="flex items-center rounded border border-gray-200 px-6 py-2">
-        <img src={SearchIcon} alt="search icon" />
+        <div className="md:w-24 md:h-24 w-20 h-20">
+          <img src={SearchIcon} alt="search icon" />
+        </div>
         <input
           type="text"
+          id="search-input"
+          name="search-input"
           placeholder="지역을 입력해주세요. (예: 종로구)"
           value={keyword}
-          className="w-200 px-6 py-6 text-sm placeholder:text-sm focus-visible:outline-0"
+          className="md:w-200 w-180 md:px-6 px-0 py-6 md:text-sm text-xs placeholder:text-sm focus-visible:outline-0"
           onChange={(e) => {
             setKeyword(e.target.value);
             setSearchError(false);
