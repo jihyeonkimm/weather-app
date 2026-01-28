@@ -19,7 +19,6 @@ export const FavoriteCard = ({
   const [disabledInput, setDisabledInput] = useState<boolean>(true);
   const [currentLabel, setCurrentLabel] = useState<string>(item.label);
   const { data, isLoading } = useWeatherQuery(item.lat, item.lon);
-  console.log('데이터', data);
 
   const handleEditClick = () => {
     if (!disabledInput) {

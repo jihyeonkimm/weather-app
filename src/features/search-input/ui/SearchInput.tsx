@@ -33,8 +33,6 @@ export const SearchInput = ({ onSelectLocation }: SearchInputProps) => {
         ? address.split('-').pop() || address
         : address;
 
-      console.log('label', label);
-
       onSelectLocation(coord.lat, coord.lon, label);
       setSearchError(false);
       setIsOpen(false);

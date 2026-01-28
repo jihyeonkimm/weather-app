@@ -11,8 +11,6 @@ export const useWeatherQuery = (lat: number | null, lon: number | null) => {
         getCurrentWeather(lat!, lon!),
         getForecast(lat!, lon!),
       ]);
-      console.log('현재 날씨', current);
-      console.log('예보 데이터', forecast);
       return { current, forecast };
     },
 

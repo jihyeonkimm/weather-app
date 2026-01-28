@@ -72,8 +72,6 @@ export const WeatherPage = ({
     }
   };
 
-  console.log(data);
-
   if (geoError)
     return (
       <div className="flex justify-center items-center w-full p-10 text-red-500">

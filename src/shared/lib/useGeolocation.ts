@@ -11,7 +11,6 @@ export const useGeolocation = () => {
 
   useEffect(() => {
     if (!navigator.geolocation) {
-      console.log('이 브라우저에서는 Geolocation이 지원되지 않습니다.');
       return;
     }
 
