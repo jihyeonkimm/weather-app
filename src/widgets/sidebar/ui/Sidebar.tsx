@@ -45,6 +45,16 @@ export const Sidebar = ({
   useEffect(() => {
     const favorites = getFavorites();
     setFavoriteList(favorites);
+
+    const handleFavoriteUpdate = () => {
+      setFavoriteList(getFavorites());
+    };
+
+    window.addEventListener('favoriteUpdate', handleFavoriteUpdate);
+
+    return () => {
+      window.removeEventListener('favoriteUpdate', handleFavoriteUpdate);
+    };
   }, []);
 
   return (
