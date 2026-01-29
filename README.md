@@ -3,7 +3,7 @@
 React와 TypeScript, OpenWeatherMap API를 사용한 날씨 앱입니다.
 FSD(Feature-Sliced Design) 아키텍처를 기반으로 구현되었으며, 현재 위치 기반 날씨 조회와 한국 행정구역 검색, 즐겨찾기 기능을 제공합니다.
 
-## ✨ 프로젝트 실행 방법
+## 프로젝트 실행 방법
 
 ### 1. 의존성 설치
 
@@ -31,7 +31,7 @@ npm run build
 npm run preview
 ```
 
-## 🛠 기술 스택
+## 기술 스택
 
 ### Core
 
@@ -58,20 +58,20 @@ npm run preview
 
 ## 주요 기능 설명
 
-### 🌍 위치 기반 날씨 조회
+### 위치 기반 날씨 조회
 
 - navigator.geolocation을 사용한 현재 위치 자동 감지
 - OpenWeatherMap API를 사용한 날씨 데이터 연동
 - 현재 날씨(Current Weather), 5일간의 3시간 간격 날씨 예보(5 day / 3 hour forecast) 데이터 사용
 - 5일간 예보 중 당일 날짜에 해당하는 예보만 추출하여 그 중 최저/최고기온을 각각 비교해서 추출
 
-### 🔍 한국 행정구역 검색
+### 한국 행정구역 검색
 
 - OpenWeatherMap Geocoding API를 통한 좌표 변환
 - 한국 주소 검색 최적화
 - 드롭다운 UI로 검색 결과 선택
 
-### ⭐ 즐겨찾기 관리
+### 즐겨찾기 관리
 
 - 최대 6개 지역 즐겨찾기 등록
 - LocalStorage 기반 저장
