@@ -1,15 +1,10 @@
 import { useWeatherQuery } from '@/entities/weather/model/useWeatherQuery';
 import { FavoriteButton } from '@/features/favorite';
+import { useToggleFavorite } from '@/features/favorite/model/useToggleFavorite';
 import { SearchInput } from '@/features/search-input';
-import {
-  addFavorites,
-  getFavorites,
-  removeFavorite,
-} from '@/shared/lib/favoriteStorage';
 import { useGeolocation } from '@/shared/lib/useGeolocation';
 import { CurrentWeatherWidget } from '@/widgets/current-weather';
 import { ForecastWidget } from '@/widgets/forecast-list';
-import { useEffect, useState } from 'react';
 
 interface WeatherPageProps {
   selectedLocation: { lat: number; lon: number; label: string } | null;
@@ -21,7 +16,8 @@ export const WeatherPage = ({
   onSelectLocation,
 }: WeatherPageProps) => {
   const { location, error: geoError } = useGeolocation();
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const { isFavorite, handleToggleFavorite } =
+    useToggleFavorite(selectedLocation);
 
   // 선택된 위치가 있으면 선택된 위치로, 없으면 현재 위치로
   const currentLat = selectedLocation?.lat ?? location?.lat ?? null;
@@ -29,52 +25,9 @@ export const WeatherPage = ({
 
   const { data, isLoading, isError } = useWeatherQuery(currentLat, currentLon);
 
-  useEffect(() => {
-    if (!selectedLocation) {
-      setIsFavorite(false);
-      return;
-    }
-
-    const favorites = getFavorites();
-    const currentId = `${selectedLocation.lat}-${selectedLocation.lon}`;
-    const exists = favorites.some((fav) => fav.id === currentId);
-
-    setIsFavorite(exists);
-  }, [selectedLocation]);
-
-  // 즐겨찾기 추가 / 해제
-  const handleToggleFavorite = () => {
-    if (!selectedLocation) return;
-
-    const currentId = `${selectedLocation.lat}-${selectedLocation.lon}`;
-
-    if (isFavorite) {
-      if (window.confirm('즐겨찾기에서 해제하시겠습니까?')) {
-        removeFavorite(currentId);
-        setIsFavorite(false);
-        window.dispatchEvent(new Event('favoriteUpdate'));
-      }
-    } else {
-      const newFavorite = {
-        id: `${selectedLocation.lat}-${selectedLocation.lon}`,
-        label: selectedLocation.label,
-        lat: selectedLocation.lat,
-        lon: selectedLocation.lon,
-      };
-
-      const confirmed = window.confirm('즐겨찾기에 추가하시겠습니까?');
-      if (confirmed) {
-        const success = addFavorites(newFavorite);
-        if (success) {
-          setIsFavorite(true);
-        }
-      }
-    }
-  };
-
   if (geoError)
     return (
-      <div className="flex justify-center items-center w-full p-10 text-red-500">
+      <div className="flex justify-center items-center w-full min-h-screen p-10 text-red-500">
         브라우저에서 위치 권한을 허용해주세요!
       </div>
     );

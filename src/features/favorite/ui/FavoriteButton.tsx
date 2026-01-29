@@ -22,7 +22,7 @@ export const FavoriteButton = ({
           alt="bookmark icon"
         />
       </span>
-      {isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}
+      {isFavorite ? '즐겨찾기 삭제' : '즐겨찾기 추가'}
     </button>
   );
 };

@@ -20,6 +20,13 @@ export const FavoriteCard = ({
   const [currentLabel, setCurrentLabel] = useState<string>(item.label);
   const { data, isLoading } = useWeatherQuery(item.lat, item.lon);
 
+  const weather = data?.currentWeather;
+  const temp = weather ? Math.round(weather.main.temp) : null;
+  const maxTemp = data ? Math.round(data.dayMinMax.max) : null;
+  const minTemp = data ? Math.round(data.dayMinMax.min) : null;
+  const icon = weather?.weather[0].icon;
+  const description = weather?.weather[0].description;
+
   const handleEditClick = () => {
     if (!disabledInput) {
       onEdit(currentLabel);
@@ -54,8 +61,8 @@ export const FavoriteCard = ({
             <div className="w-50 h-50 bg-gray-200 animate-pulse rounded"></div>
           ) : (
             <img
-              src={`https://openweathermap.org/img/wn/${data?.currentWeather.weather[0].icon}@2x.png`}
-              alt={`${data?.currentWeather.weather[0].description} icon`}
+              src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
+              alt={`${description} icon`}
             />
           )}
         </div>
@@ -64,16 +71,16 @@ export const FavoriteCard = ({
           {isLoading ? (
             <div className="w-full h-25 bg-gray-200 animate-pulse rounded"></div>
           ) : (
-            <div className="relative flex gap-2 w-full group border-b border-gray-200 md:border-b-transparent hover:border-gray-200">
+            <div className="relative flex items-center gap-2 w-full group">
               <input
                 type="text"
                 name="favorite-name"
-                id={`${currentLabel}`}
+                id={`${item.id}`}
                 aria-describedby="favorite-name-tooltip"
                 value={currentLabel}
                 maxLength={10}
                 disabled={disabledInput}
-                className={`peer text-md font-bold min-w-0 focus-visible:outline-0 `}
+                className={`peer text-md font-bold min-w-0 focus-visible:outline-0 border-b ${disabledInput ? 'border-b-transparent' : 'border-gray-200'}`}
                 onChange={(e) => setCurrentLabel(e.target.value)}
                 onClick={(e) => e.stopPropagation()}
               />
@@ -89,7 +96,7 @@ export const FavoriteCard = ({
               </div>
               <button
                 type="button"
-                className="shrink-0 text-[10px] text-gray-800 md:opacity-0 transition-opacity duration-200 group-hover:opacity-100 peer-focus:opacity-100 cursor-pointer"
+                className="shrink-0 px-3 h-20 text-[10px] text-gray-800 md:opacity-0 transition-opacity duration-200 group-hover:opacity-100 peer-focus:opacity-100 cursor-pointer rounded border border-gray-200"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleEditClick();
@@ -109,11 +116,10 @@ export const FavoriteCard = ({
             ) : data ? (
               <>
                 <p className="text-2xl font-semibold translate-y-4 text-(--text-gray)">
-                  {Math.trunc(data?.currentWeather.main.temp)}°
+                  {temp}°
                 </p>
                 <p className="text-xs text-gray-500">
-                  최고 {Math.trunc(data.dayMinMax.max)}° / 최저{' '}
-                  {Math.trunc(data.dayMinMax.min)}°
+                  최고 {maxTemp}° / 최저 {minTemp}°
                 </p>
               </>
             ) : (

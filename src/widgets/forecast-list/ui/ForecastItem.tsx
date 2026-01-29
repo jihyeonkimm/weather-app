@@ -14,6 +14,8 @@ export const ForecastItem = ({ data, isLast }: ForecastItemProps) => {
   const { icon, description } = weather[0];
   const formattedDate = dayjs(dt_txt).format('M월 D일 H시');
 
+  const temp = Math.round(main.temp);
+
   return (
     <div
       className={`flex justify-between items-center py-6 ${!isLast ? 'border-b border-gray-200' : ''}`}
@@ -29,7 +31,7 @@ export const ForecastItem = ({ data, isLast }: ForecastItemProps) => {
           />
         </div>
       </div>
-      <p className="font-bold">{Math.trunc(main.temp)}°</p>
+      <p className="font-bold">{temp}°</p>
     </div>
   );
 };
